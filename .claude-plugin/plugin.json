@@ -1,0 +1,9 @@
+{
+  "name": "skill-issue",
+  "version": "0.1.0",
+  "description": "Ash's personal collection of Claude Code skills.",
+  "author": {
+    "name": "Ash"
+  },
+  "repository": "https://github.com/ashler2/skill-issue"
+}
