@@ -2,6 +2,12 @@
 
 A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills).
 
+## Skills
+
+| Skill | Invoke | What it does |
+| --- | --- | --- |
+| [grill-me](skills/grill-me/SKILL.md) | `/grill-me <idea>` | Devil's-advocate interview, one question at a time with Claude's built-in question picker, highest stakes first, ending in a decision log of what's decided, open, and worth prototyping. |
+
 ## Layout
 
 ```
