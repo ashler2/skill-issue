@@ -1,0 +1,6 @@
+# Local agent instructions, never committed
+CLAUDE.md
+CLAUDE.local.md
+.claude/settings.local.json
+
+.DS_Store
