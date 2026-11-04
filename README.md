@@ -7,6 +7,7 @@ A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/cl
 | Skill | Invoke | What it does |
 | --- | --- | --- |
 | [grill-me](skills/grill-me/SKILL.md) | `/grill-me <idea>` | Devil's-advocate interview, one question at a time with Claude's built-in question picker, highest stakes first, ending in a decision log of what's decided, open, and worth prototyping. |
+| [explain-to-me](skills/explain-to-me/SKILL.md) | `/explain-to-me [what]` | Explains a change, feature or bug fix in three layers (non-technical, plain English, technical) plus how to see it working. Defaults to this session's work; checks the story against the actual diff. |
 
 ## Layout
 
