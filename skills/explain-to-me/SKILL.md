@@ -4,45 +4,34 @@ description: Explain a change, feature or bug fix in three layers, from non-tech
 disable-model-invocation: true
 ---
 
-Explain a change so anyone can follow it. The **diff** is the source of truth for *what* changed; the conversation, commit messages and PR text supply *why*.
+Explain a change so anyone can follow it. The **diff** is the truth for *what* changed; the conversation, commits and PR text give *why*.
 
 ## 1. Find the change
 
-The **target** is whatever the user typed after `/explain-to-me`: a commit, a range, a branch, a PR number, a file, a Linear ticket like `ASH-123`, or plain words like "the login fix". Resolve it to a concrete diff with `git`, `gh` or the Linear tools. When it could mean more than one change, list the candidates and ask which.
+Resolve the user's target (commit, range, branch, PR, file, Linear ticket like `ASH-123`, or plain words) to a diff. If it could mean several changes, ask which.
 
-With no target, explain **this session's work**: every file this conversation changed, committed or not, read from the diff. When this session changed nothing, fall back in order to uncommitted changes, then the current branch against `main`, then the last commit. Say in one line which one you picked.
+No target: this session's changes, committed or not. If this session changed nothing: uncommitted changes, else this branch vs `main`, else the last commit. Say in one line which you used.
 
-Read the whole diff before writing. For anything wider than a few files, use a subagent to summarise it.
+Read the whole diff first, in a subagent if it's more than a few files.
 
-## 2. Check the story against the diff
+## 2. Check the story
 
-Compare what the conversation says was done with what the diff shows. When they disagree, explain the diff, and open the explanation with a **Heads up** listing:
-- anything claimed but missing from the diff
-- anything changed but never mentioned
+If the conversation and the diff disagree, explain the diff and open with a **Heads up** listing anything claimed but not in the diff, and anything changed but never mentioned.
 
-Leave the Heads up out when they agree.
+## 3. Write it
 
-## 3. Sort the change
+Split the diff into **parts** with separate purposes, and frame each by kind:
+- **Feature**: what you can do now.
+- **Bug fix**: what was broken, why, what fixed it.
+- **Behind the scenes**: what changed underneath, and why it's worth it when nothing looks different.
 
-Split the diff into **parts**: changes with separate purposes. Give each part a **kind**, which sets how every layer frames it:
+Several parts: start with an **Overview**, one line per part. Then for each part:
 
-| Kind | Frame every layer as |
-| --- | --- |
-| Feature | What you can do now that you couldn't before |
-| Bug fix | What was broken, why it broke, what fixed it |
-| Behind the scenes (refactor, config, dependencies, tests) | What changed underneath, and why it was worth doing when nothing looks different |
+1. **In a nutshell**: for someone non-technical. 2–3 sentences, everyday words, no file names or jargon.
+2. **What this means**: for the developer. A short paragraph or a few bullets, plain English; explain each term the first time.
+3. **Under the hood**: technical, as long as needed: files, key functions, how they fit, as `path:line`.
+4. **See it working**: numbered steps to check it yourself and what you should see. Nothing visible: the command or test that proves it, or say there's nothing to check.
 
-## 4. Write the explanation
+The first two layers' limits are firm; overflow goes in **Under the hood**.
 
-When there are several parts, start with an **Overview**: one line per part. Then write these sections for each part in turn, under a heading naming the part:
-
-1. **In a nutshell**: for someone non-technical. 2–3 sentences, everyday words, an analogy where it helps. No file names, no jargon.
-2. **What this means**: for the developer who asked. A short paragraph or a few bullets in plain English. Name files and concepts when useful, and explain each term the first time it appears.
-3. **Under the hood**: technical. As long as it needs: files changed, the key functions, classes or queries, and how they fit together. Reference code as `path:line`.
-4. **See it working**: numbered steps to check the change yourself: what to open, run or click, and what you should now see. For a change with nothing visible, give the command or test that proves it, or say plainly that there's nothing visible to check.
-
-The length limits on the first two layers are firm: when a part needs more, the extra goes in **Under the hood**.
-
-## 5. Deliver
-
-Write the explanation in chat. Write it to a file only when the user asks: by default `explanations/YYYY-MM-DD-<short-slug>.md` at the project root, or the path they give. Tell them where it went.
+Answer in chat. Save to a file only when asked: `explanations/YYYY-MM-DD-<slug>.md` at the project root, or their path.
