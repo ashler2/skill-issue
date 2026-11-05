@@ -7,7 +7,7 @@
     {
       "name": "skill-issue",
       "source": "./",
-      "description": "Ash's personal collection of Claude Code skills."
+      "description": "A collection of general-purpose Claude Code skills."
     },
     {
       "name": "human-readable",

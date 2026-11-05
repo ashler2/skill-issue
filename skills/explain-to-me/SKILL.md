@@ -8,7 +8,7 @@ Explain a change so anyone can follow it. The **diff** is the truth for *what* c
 
 ## 1. Find the change
 
-Resolve the user's target (commit, range, branch, PR, file, Linear ticket like `ASH-123`, or plain words) to a diff. If it could mean several changes, ask which.
+Resolve the user's target (commit, range, branch, PR, file, issue ID like `PROJ-123`, or plain words) to a diff. If it could mean several changes, ask which.
 
 No target: this session's changes, committed or not. If this session changed nothing: uncommitted changes, else this branch vs `main`, else the last commit. Say in one line which you used.
 

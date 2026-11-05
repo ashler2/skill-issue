@@ -1,6 +1,6 @@
 # skill-issue
 
-A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills).
+A collection of general-purpose [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills).
 
 ## Skills
 
@@ -9,6 +9,8 @@ A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/cl
 | [grill-me](skills/grill-me/SKILL.md) | `/grill-me <idea>` | Devil's-advocate interview, one question at a time with Claude's built-in question picker, highest stakes first, ending in a decision log of what's decided, open, and worth prototyping. |
 | [explain-to-me](skills/explain-to-me/SKILL.md) | `/explain-to-me [what]` | Explains a change, feature or bug fix in three layers (non-technical, plain English, technical) plus how to see it working. Defaults to this session's work; checks the story against the actual diff. |
 | [explain-with-pictures](skills/explain-with-pictures/SKILL.md) | `/explain-with-pictures [mermaid\|screenshots] [what]` | Same as explain-to-me, plus pictures where words struggle. `mermaid` (default) adds diagrams; `screenshots` also runs the app and captures the changed screens. |
+| [trim](skills/trim/SKILL.md) | `/trim <skill, plugin or file>` | Measures what a skill, plugin, `CLAUDE.md`/`AGENTS.md`, agent or hook costs in context, proposes cuts that keep its behaviour, applies the ones you pick and shows before → after. |
+| [blast-radius](skills/blast-radius/SKILL.md) | `/blast-radius <change>` | Before a risky change, maps everything it reaches: what must change, what might break, data and users at risk, test coverage and blind spots. Ends with a risk level and a safe order. Changes nothing. |
 | [setup](skills/setup/SKILL.md) | `/skill-issue:setup` | Shows the optional plugins below, and switches them on or off: everywhere, for a project, or just for you in a project. |
 
 ## Optional plugins

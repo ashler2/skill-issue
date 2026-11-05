@@ -1,7 +1,7 @@
 {
   "name": "skill-issue",
-  "version": "0.5.0",
-  "description": "Ash's personal collection of Claude Code skills.",
+  "version": "0.6.0",
+  "description": "A collection of general-purpose Claude Code skills.",
   "author": {
     "name": "Ash"
   },
