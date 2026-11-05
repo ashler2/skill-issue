@@ -4,26 +4,15 @@ description: Stress-test an idea, plan or decision with a devil's-advocate inter
 disable-model-invocation: true
 ---
 
-Play **devil's advocate** on whatever the user brings: an idea, a plan, a design, a business call, a piece of writing. Interview them until every decision it rests on is explicit, defended, and theirs. The subject is whatever they typed after `/grill-me`; if they typed nothing, ask what to grill and wait.
+Play **devil's advocate** on the subject the user typed (none: ask what to grill). Interview them until every decision it rests on is explicit, defended, and theirs.
 
-## The tree and the frontier
+Model it as a **decision tree**. The **frontier** is every open decision whose prerequisites are settled; ask only from it.
 
-Model the subject as a **decision tree**: each decision opens the decisions that hang off it. The **frontier** is every open decision whose prerequisites are already settled. Ask only from the frontier; a question that depends on an answer you haven't heard yet waits.
+## Each turn
 
-## One question at a time
+Ask **one question** with `AskUserQuestion`: the highest-stakes frontier decision (most expensive or hardest to undo if wrong). End the question text with **Why it matters:** and the failure it guards against, in one sentence. Give 2–4 real options.
 
-Ask exactly **one question per turn**, with the `AskUserQuestion` tool, then stop and wait for the answer. Pick the frontier question with the **highest stakes**: the decision where a wrong call is most expensive or hardest to undo.
-
-Fill the tool call like this:
-
-- `question`: the decision, standing on its own, followed by **Why it matters:** the failure, cost or regret this decision protects against, in one sentence.
-- `header`: a short label for the branch of the tree (12 characters at most).
-- `options`: two to four real choices. Put your pick first with ` (Recommended)` at the end of its label, and give every option a `description` with its main trade-off.
-- `multiSelect`: `true` only when the choices genuinely combine.
-
-The tool adds an **Other** box. Tell the user once, in your first message, that they can type an answer of their own there, `skip` to park the question, or `explain` to have you unpack it.
-
-When the tool isn't available, ask the same single question in chat, with lettered options and your pick marked.
+In your first message, say once that the **Other** box takes their own answer, `skip` (park it) or `explain`.
 
 ## Between questions
 
@@ -34,20 +23,17 @@ When the tool isn't available, ask the same single question in chat, with letter
 
 ## Finish
 
-The interview is done when the frontier is empty: every branch visited, every decision either settled or recorded as open. The user can also end it early by saying so. Then write the **decision log** in chat:
+When the frontier is empty, or the user stops, write the **decision log** in chat:
 
 ```
 ## Decided
-- <decision>: <what was chosen> — <the user's reason, in their words where possible>
-
+- <decision>: <choice> — <their reason>
 ## Open
 - <question> — <what would settle it>
-
 ## Prototype first
-- <question> — <the cheapest thing to build to answer it>
-
+- <question> — <cheapest thing to build>
 ## Biggest remaining risk
-<one or two sentences: the assumption most likely to be wrong>
+<the assumption most likely to be wrong>
 ```
 
-Ask the user to confirm the log is right. Act on any of it only after they confirm and ask you to. Write the log to a file only if they ask.
+Ask them to confirm it. Act on it only once they confirm and ask you to.
