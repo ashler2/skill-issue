@@ -8,6 +8,7 @@ A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/cl
 | --- | --- | --- |
 | [grill-me](skills/grill-me/SKILL.md) | `/grill-me <idea>` | Devil's-advocate interview, one question at a time with Claude's built-in question picker, highest stakes first, ending in a decision log of what's decided, open, and worth prototyping. |
 | [explain-to-me](skills/explain-to-me/SKILL.md) | `/explain-to-me [what]` | Explains a change, feature or bug fix in three layers (non-technical, plain English, technical) plus how to see it working. Defaults to this session's work; checks the story against the actual diff. |
+| [explain-with-pictures](skills/explain-with-pictures/SKILL.md) | `/explain-with-pictures [mermaid\|screenshots] [what]` | Same as explain-to-me, plus pictures where words struggle. `mermaid` (default) adds diagrams; `screenshots` also runs the app and captures the changed screens. |
 | [setup](skills/setup/SKILL.md) | `/skill-issue:setup` | Shows the optional plugins below, and switches them on or off: everywhere, for a project, or just for you in a project. |
 
 ## Optional plugins
