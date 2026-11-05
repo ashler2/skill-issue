@@ -1,6 +1,6 @@
 {
   "name": "human-readable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Keeps the code Claude writes human-readable: clear names, no extra code, simple structure, useful comments.",
   "author": {
     "name": "Ash"

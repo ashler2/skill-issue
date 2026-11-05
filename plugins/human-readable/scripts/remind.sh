@@ -17,7 +17,7 @@ code_extensions=" php js mjs cjs ts tsx jsx vue svelte astro py rb go rs java kt
 
 # Notebooks are code too.
 if [ "$extension" = "ipynb" ] || [[ "$code_extensions" == *" $extension "* ]]; then
-  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"human-readable: re-check this edit against the human-readable rules (clear names, only what the task needs, simple structure, comments explain why) and fix anything that falls short. If the human-readable skill is not loaded yet, load it first."}}'
+  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"human-readable: check this edit against the human-readable skill (load it if needed) and fix what falls short."}}'
 fi
 
 exit 0

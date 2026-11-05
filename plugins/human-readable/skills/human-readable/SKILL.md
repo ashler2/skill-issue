@@ -1,6 +1,6 @@
 ---
 name: human-readable
-description: Rules for writing human-readable code. Use whenever writing or editing code, templates or markup.
+description: Readable-code rules. Use when writing or editing code, templates or markup.
 argument-hint: "[file, folder or \"this diff\" to clean up]"
 paths:
   - "**/*.php"
@@ -67,33 +67,22 @@ paths:
   - "**/*.styl"
 ---
 
-Write code a person can read once and understand. These rules apply to every line of code, template or markup you write.
+Write code a person can read once and understand. The project's own conventions (`CLAUDE.md`/`AGENTS.md`, linters, conventions skills, the surrounding code's style) win; these rules fill what they leave open.
 
-## The project comes first
+## Rules
 
-The project's own conventions win: its `CLAUDE.md` or `AGENTS.md`, its linters and formatters, any conventions skill, and the style of the surrounding code. These rules decide everything those leave open. Match the neighbours.
+**Names.** Full words for what it holds or does: `invoiceTotal`, `sendReminderEmail`, `isExpired`. Single letters only for loop counters and idioms (`i`, `e`, `x`/`y`). Replace vague names (`data`, `result`, `temp`, `info`, `handle`, `process`, `manager`, `util`) with the specific thing.
 
-## The rules
+**Only what the task needs.** The smallest change that does the job. Add an option, parameter, wrapper, interface, flag or abstraction only when this task uses it. Three similar lines beat a premature helper. Delete code your change leaves unused.
 
-**Names.** Name every variable, function, class and file for what it holds or does, in full words: `invoiceTotal`, `sendReminderEmail`, `isExpired`. Single letters are for loop counters and well-known idioms (`i`, `e` for an event, `x`/`y` for coordinates). Swap vague names like `data`, `result`, `temp`, `info`, `handle`, `process`, `manager` and `util` for the specific thing.
+**Simple structure.** Short functions doing one thing. Return early instead of nesting. A plain `if`/`else` or a named variable over a chained ternary, dense one-liner or clever trick.
 
-**Only what the task needs.** Write the smallest change that does the job. Add an option, parameter, wrapper, interface, config flag or abstraction only when the current task uses it today. Three similar lines beat a premature helper. Delete code your change makes unused.
-
-**Simple structure.** Keep functions short and doing one thing. Return early instead of nesting. Prefer a plain `if`/`else` or a named intermediate variable to a chained ternary, a dense one-liner or a clever trick. Use the language's everyday features over its obscure ones.
-
-**Comments explain why.** Comment the reason behind anything non-obvious: a workaround, a business rule, a surprising edge case. Let the names say what the code does. Leave out comments that restate the code, narrate your change ("// Updated to fix the bug"), or mark sections that the structure already shows.
+**Comments explain why.** Comment the reason behind anything non-obvious: a workaround, a business rule, an edge case. Let names say what. Leave out comments that restate the code or narrate your change.
 
 ## Existing code
 
-Keep your diff to the task. When code you read or touch is badly unreadable, leave it as it is and mention it in your reply in a line, with the file and what's wrong, so the user can ask for a clean-up.
+Keep your diff to the task. Mention badly unreadable code you touch in one line (file and problem) instead of fixing it.
 
 ## Clean-up mode
 
-When the user types `/human-readable` with a target (a file, a folder, or "this diff" for the current uncommitted changes), rewrite that code to the rules above:
-
-1. Read the target and its tests. Note what it does now: inputs, outputs, side effects.
-2. Rewrite it to the rules, keeping its behaviour exactly the same. Keep public names that other code calls unless the user says otherwise; rename private ones freely.
-3. Run the project's tests and linter for the changed files, when it has them. Fix anything you broke.
-4. Summarise what you changed in a few bullets, and anything you deliberately left alone.
-
-With no target, ask what to clean up.
+`/human-readable <file, folder or "this diff">`: rewrite the target to these rules with behaviour unchanged. Keep public names other code calls; rename private ones freely. Run the project's tests and linter for the changed files, fix what you broke, then summarise the changes in a few bullets. No target: ask what to clean up.
