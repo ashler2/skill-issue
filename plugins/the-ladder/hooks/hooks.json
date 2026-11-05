@@ -1,0 +1,16 @@
+{
+  "description": "At session start, tell Claude to load the-ladder skill before writing code.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'the-ladder: before writing or changing code, load the the-ladder skill and climb it.'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -13,6 +13,11 @@
       "name": "human-readable",
       "source": "./plugins/human-readable",
       "description": "Optional. Keeps the code Claude writes human-readable: clear names, no extra code, simple structure, useful comments."
+    },
+    {
+      "name": "the-ladder",
+      "source": "./plugins/the-ladder",
+      "description": "Optional. Makes Claude climb a ladder before writing code: need it, already in the codebase, built-in or installed, then the smallest build that works."
     }
   ]
 }
