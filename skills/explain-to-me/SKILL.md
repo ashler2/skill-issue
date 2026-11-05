@@ -34,4 +34,6 @@ Several parts: start with an **Overview**, one line per part. Then for each part
 
 The first two layers' limits are firm; overflow goes in **Under the hood**.
 
+Write layers 1, 2 and 4 in Simplified Technical English style: ≤20 words per sentence, one idea or action each, active voice, one word per meaning, no idioms.
+
 Answer in chat. Save to a file only when asked: `explanations/YYYY-MM-DD-<slug>.md` at the project root, or their path.
