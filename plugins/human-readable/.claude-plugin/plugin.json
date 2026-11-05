@@ -1,0 +1,9 @@
+{
+  "name": "human-readable",
+  "version": "0.1.0",
+  "description": "Keeps the code Claude writes human-readable: clear names, no extra code, simple structure, useful comments.",
+  "author": {
+    "name": "Ash"
+  },
+  "repository": "https://github.com/ashler2/skill-issue"
+}

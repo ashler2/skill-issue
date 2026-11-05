@@ -8,10 +8,21 @@ A personal collection of [Claude Code skills](https://docs.claude.com/en/docs/cl
 | --- | --- | --- |
 | [grill-me](skills/grill-me/SKILL.md) | `/grill-me <idea>` | Devil's-advocate interview, one question at a time with Claude's built-in question picker, highest stakes first, ending in a decision log of what's decided, open, and worth prototyping. |
 | [explain-to-me](skills/explain-to-me/SKILL.md) | `/explain-to-me [what]` | Explains a change, feature or bug fix in three layers (non-technical, plain English, technical) plus how to see it working. Defaults to this session's work; checks the story against the actual diff. |
+| [setup](skills/setup/SKILL.md) | `/skill-issue:setup` | Shows the optional plugins below, and switches them on or off: everywhere, for a project, or just for you in a project. |
+
+## Optional plugins
+
+These live in the same marketplace but are installed separately, because they change how Claude works all the time. Switch them on with `/skill-issue:setup`, or directly with `claude plugin install <name>@skill-issue`.
+
+| Plugin | What it does |
+| --- | --- |
+| [human-readable](plugins/human-readable/skills/human-readable/SKILL.md) | Rules for readable code (clear names, only what the task needs, simple structure, comments that explain why). They load automatically the first time Claude touches a code, template or markup file, and a hook reminds Claude to re-check after every edit to one. Project conventions win where they clash. `/human-readable <file, folder or "this diff">` cleans up existing code without changing what it does. |
 
 ## Layout
 
 ```
+plugins/
+  human-readable/   # optional plugin: its own .claude-plugin/, skills/, hooks/, scripts/
 skills/
   <skill-name>/
     SKILL.md        # frontmatter (name, description) + instructions

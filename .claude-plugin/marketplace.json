@@ -8,6 +8,11 @@
       "name": "skill-issue",
       "source": "./",
       "description": "Ash's personal collection of Claude Code skills."
+    },
+    {
+      "name": "human-readable",
+      "source": "./plugins/human-readable",
+      "description": "Optional. Keeps the code Claude writes human-readable: clear names, no extra code, simple structure, useful comments."
     }
   ]
 }

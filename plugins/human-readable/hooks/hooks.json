@@ -1,0 +1,17 @@
+{
+  "description": "After each edit to a code, template or markup file, remind Claude to check it against the human-readable rules.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/remind.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
