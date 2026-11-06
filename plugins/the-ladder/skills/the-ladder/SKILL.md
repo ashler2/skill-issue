@@ -26,9 +26,9 @@ Go up one rung at a time and stop at the first that solves it:
 ## While building
 
 - Keep the solution small, but finish the whole change, including any callers, tests and fixtures it breaks.
-- Don't add layers, wrappers, conversions, settings, boilerplate or code for a future that wasn't asked for. Use values as the platform hands them over. Removing code is better than adding it. Follow the existing structure and conventions.
+- Don't add abstractions, wrappers, conversions, settings, boilerplate or code for a future that wasn't asked for. Use values as the platform hands them over. Removing code is better than adding it. Follow the existing structure, layers and conventions.
 - Prefer the smallest diff that covers everything on your list. Clever one-liners that are hard to read don't count as small.
-- Comments say why, not what, in one line.
+- Add a comment only when the code can't show why, and keep it to one line.
 - Moved or merged code keeps its validation and error handling.
 - If two options are the same size, choose the one that handles edge cases.
 - Non-trivial new logic (branches, loops, parsing, money, security, a new script or app) gets one small test or an assert self-check. Trivial edits don't.
