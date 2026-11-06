@@ -126,3 +126,7 @@ claude plugin marketplace remove skill-issue
 1. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter.
 2. Bump `version` in `.claude-plugin/plugin.json`.
 3. Run `claude plugin validate .`, then commit and push.
+
+## License
+
+[MIT](LICENSE)
