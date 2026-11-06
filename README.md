@@ -15,6 +15,7 @@ A collection of general-purpose [Claude Code skills](https://docs.claude.com/en/
 | [blast-radius](skills/blast-radius/SKILL.md) | `/blast-radius <change>` | Before a risky change, maps everything it reaches: what must change, what might break, data and users at risk, test coverage and blind spots. Ends with a risk level and a safe order. Changes nothing. |
 | [handover](skills/handover/SKILL.md) | `/handover [focus]`, `/handover resume [file]` | Writes a short note (goal, state checked against git, done, next step, decisions, dead ends, gotchas) to `.claude/handovers/` so a fresh session can carry on. `resume` reads the newest note, checks what changed since, and offers to continue. |
 | [to-spec](skills/to-spec/SKILL.md) | `/to-spec [doc\|factory] [source]` | Turns a grill-me decision log (or a file or idea) into a spec split into vertical slices, each one testable end to end on its own. Saves it to `specs/`; in `factory` mode also creates one software-factory ticket per slice. |
+| [retro](skills/retro/SKILL.md) | `/retro [session, branch, range or notes]` | Looks back on a session or feature for corrections, failed attempts, missed rules and slow paths, finds the cause of each, and proposes small before → after fixes to `CLAUDE.md`/`AGENTS.md`, a skill or your memory, with their context cost. Applies only the ones you pick. |
 | [setup](skills/setup/SKILL.md) | `/skill-issue:setup` | Shows the optional plugins below, and switches them on or off: everywhere, for a project, or just for you in a project. |
 
 ## Optional plugins
