@@ -28,6 +28,12 @@ These live in the same marketplace but are installed separately, because they ch
 ## Layout
 
 ```
+.claude-plugin/
+  plugin.json       # plugin manifest (name, version, description)
+  marketplace.json  # marketplace: skill-issue plus the optional plugins
+  icon.png          # plugin icon
+assets/
+  logo.svg          # logo
 plugins/
   human-readable/   # optional plugin: its own .claude-plugin/, skills/, hooks/, scripts/
   the-ladder/       # optional plugin: its own .claude-plugin/, skills/, hooks/
@@ -45,7 +51,6 @@ This repo is a Claude Code plugin and also its own marketplace, so Claude Code c
 ### Before you start
 
 - Claude Code is installed and signed in.
-- The repo is private, so the machine needs GitHub access. Run `gh auth login`, or make sure `git clone git@github.com:ashler2/skill-issue.git` works.
 
 ### Option 1: inside a Claude Code session
 

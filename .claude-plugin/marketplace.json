@@ -22,7 +22,7 @@
     {
       "name": "software-factory",
       "source": "./plugins/software-factory",
-      "description": "Optional. A software factory: tickets from a local folder, Linear, GitHub or Jira move through fixed stages. Start with /software-factory:setup."
+      "description": "Optional. A software factory as code: tickets from a local folder, Linear, GitHub or Jira move through a stage graph you define in factory/factory.yml. Start with /software-factory:setup."
     }
   ]
 }
