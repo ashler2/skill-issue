@@ -13,6 +13,8 @@ A collection of general-purpose [Claude Code skills](https://docs.claude.com/en/
 | [explain-with-pictures](skills/explain-with-pictures/SKILL.md) | `/explain-with-pictures [mermaid\|screenshots] [what]` | Same as explain-to-me, plus pictures where words struggle. `mermaid` (default) adds diagrams; `screenshots` also runs the app and captures the changed screens. |
 | [trim](skills/trim/SKILL.md) | `/trim <skill, plugin or file>` | Measures what a skill, plugin, `CLAUDE.md`/`AGENTS.md`, agent or hook costs in context, proposes cuts that keep its behaviour, applies the ones you pick and shows before → after. |
 | [blast-radius](skills/blast-radius/SKILL.md) | `/blast-radius <change>` | Before a risky change, maps everything it reaches: what must change, what might break, data and users at risk, test coverage and blind spots. Ends with a risk level and a safe order. Changes nothing. |
+| [handover](skills/handover/SKILL.md) | `/handover [focus]`, `/handover resume [file]` | Writes a short note (goal, state checked against git, done, next step, decisions, dead ends, gotchas) to `.claude/handovers/` so a fresh session can carry on. `resume` reads the newest note, checks what changed since, and offers to continue. |
+| [to-spec](skills/to-spec/SKILL.md) | `/to-spec [doc\|factory] [source]` | Turns a grill-me decision log (or a file or idea) into a spec split into vertical slices, each one testable end to end on its own. Saves it to `specs/`; in `factory` mode also creates one software-factory ticket per slice. |
 | [setup](skills/setup/SKILL.md) | `/skill-issue:setup` | Shows the optional plugins below, and switches them on or off: everywhere, for a project, or just for you in a project. |
 
 ## Optional plugins
