@@ -1,6 +1,6 @@
 {
   "name": "skill-issue",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A collection of general-purpose Claude Code skills.",
   "author": {
     "name": "Ash"

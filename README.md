@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.svg" alt="skill-issue logo: a d20 that rolled a 1" width="160"></p>
+
 # skill-issue
 
 A collection of general-purpose [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills).

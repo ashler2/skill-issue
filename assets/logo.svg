@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>skill-issue: a d20 that rolled a 1</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a2140"/>
+      <stop offset="1" stop-color="#14111f"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a5c"/>
+      <stop offset="1" stop-color="#e8466e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- shadow -->
+  <ellipse cx="256" cy="452" rx="150" ry="18" fill="#000" opacity="0.35"/>
+
+  <g transform="rotate(-8 256 266)" stroke="#14111f" stroke-width="10" stroke-linejoin="round">
+    <!-- outer facets -->
+    <polygon points="256,76 132,326 91,171" fill="#b8325a"/>
+    <polygon points="256,76 421,171 380,326" fill="#c93a62"/>
+    <polygon points="91,171 132,326 91,361" fill="#8f2648"/>
+    <polygon points="421,171 421,361 380,326" fill="#a12c52"/>
+    <polygon points="91,361 132,326 256,456" fill="#7a1f3e"/>
+    <polygon points="421,361 380,326 256,456" fill="#8a2446"/>
+    <polygon points="132,326 380,326 256,456" fill="#9c2a4f"/>
+    <!-- front face -->
+    <polygon points="256,76 380,326 132,326" fill="url(#face)"/>
+    <!-- outline -->
+    <polygon points="256,76 421,171 421,361 256,456 91,361 91,171" fill="none" stroke-width="14"/>
+    <!-- the roll -->
+    <text x="256" y="292" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="150" fill="#fff6ee" stroke="none">1</text>
+  </g>
+
+  <!-- sweat drop -->
+  <path d="M448 66 C 428 96, 424 114, 448 122 C 472 114, 468 96, 448 66 Z" fill="#7fd3ff" stroke="#14111f" stroke-width="7" stroke-linejoin="round"/>
+</svg>
