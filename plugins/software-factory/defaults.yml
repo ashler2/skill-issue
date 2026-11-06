@@ -1,0 +1,94 @@
+# factory/factory.yml - the factory as code. Commit it; never put tokens or secrets in it.
+# /software-factory:setup writes this from the plugin's defaults, then plans and applies changes to it.
+# Connectors: a CLI name (gh, glab, ...), mcp:<server name>, folders or none.
+version: 1
+
+tickets:
+  source: local            # local | linear | github | jira
+  connector: folders
+  # where: ENG             # Linear team, owner/repo or Jira project key (trackers only)
+  # label: factory         # opt-in label: the factory only touches tickets with it (trackers only)
+
+git:
+  host: none               # github | gitlab | bitbucket | <other> | none (branches stand in for PRs, merges are local)
+  connector: none
+
+telemetry: []              # e.g. - { kind: sentry, connector: "mcp:Sentry", project: my-app }
+
+e2e:
+  framework: none          # playwright | cypress | <other> | none (QA checks by hand in a browser)
+  test: ""                 # runs the end-to-end tests
+  start: ""                # starts the app from a worktree
+  url: ""                  # where the started app answers
+
+maxTries: 3                # trips back to an earlier stage before a ticket goes to human-review
+alwaysHuman: []            # path globs that always need human review, e.g. "database/migrations/**"
+
+# Sources create tickets each pass.
+sources:
+  - { persona: gatherer, into: triage }    # skipped while telemetry is empty
+  - { persona: hunter, into: triage }
+
+# Stages, in order. Run works them from last to first, so a ticket moves at most one stage per pass.
+# Local tickets live in factory/tickets/<stage id>/. On a tracker each stage needs `status`, plus `label`
+# when several stages share a status.
+# type:
+#   gate     - moves to `next` when the ticket's `gate` checkbox is ticked (a human refines it first)
+#   persona  - runs `persona` on each ticket (at most `limit` per pass); `on` routes its verdict
+#   queue    - picks up tickets into `next`, highest severity then oldest, while fewer than `wip`
+#              tickets sit in later persona stages
+#   human    - waits for a human: moves to `next` once the ticket's PR or branch is merged
+#   end      - finished
+# An `on` route is a stage id or { to, daily, do }. `daily` caps moves per day along it; the rest
+# get `wait`. `do` runs actions in order: create-worktree, open-pr, sync-branch, merge,
+# label-human-review, remove-worktree. Moving to an earlier stage adds 1 to `tries`.
+stages:
+  - id: features
+    type: gate
+    gate: Ready for development
+    next: ready
+
+  - id: triage
+    type: persona
+    persona: triage
+    on:
+      ready: { to: ready, daily: 5 }
+      features: features
+
+  - id: ready
+    type: queue
+    wip: 2
+    next: { to: in-progress, do: [create-worktree] }
+
+  - id: in-progress
+    type: persona
+    persona: developer
+    on: { pass: qa, blocked: human-review }
+
+  - id: qa
+    type: persona
+    persona: qa
+    limit: 1                # one app instance at a time
+    on:
+      pass: { to: review, do: [open-pr] }
+      fail: in-progress
+
+  - id: review
+    type: persona
+    persona: reviewer
+    on: { pass: evaluate, fail: in-progress }
+
+  - id: evaluate
+    type: persona
+    persona: evaluator
+    before: [sync-branch]   # a conflict that can't be resolved cleanly goes back to in-progress
+    on:
+      merge: { to: done, do: [merge, remove-worktree] }
+      human-review: { to: human-review, do: [label-human-review] }
+
+  - id: human-review
+    type: human
+    next: { to: done, do: [remove-worktree] }
+
+  - id: done
+    type: end

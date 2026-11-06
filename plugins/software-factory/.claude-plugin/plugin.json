@@ -1,0 +1,9 @@
+{
+  "name": "software-factory",
+  "version": "0.1.0",
+  "description": "A software factory: tickets from a local folder, Linear, GitHub or Jira move through fixed stages. /software-factory:setup connects the source; /software-factory:run (coming) works the tickets.",
+  "author": {
+    "name": "Ash"
+  },
+  "repository": "https://github.com/ashler2/skill-issue"
+}

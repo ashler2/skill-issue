@@ -18,6 +18,11 @@
       "name": "the-ladder",
       "source": "./plugins/the-ladder",
       "description": "Optional. Makes Claude climb a ladder before writing code: need it, already in the codebase, built-in or installed, then the smallest build that works."
+    },
+    {
+      "name": "software-factory",
+      "source": "./plugins/software-factory",
+      "description": "Optional. A software factory: tickets from a local folder, Linear, GitHub or Jira move through fixed stages. Start with /software-factory:setup."
     }
   ]
 }

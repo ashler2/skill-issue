@@ -21,6 +21,7 @@ These live in the same marketplace but are installed separately, because they ch
 | --- | --- |
 | [human-readable](plugins/human-readable/skills/human-readable/SKILL.md) | Rules for readable code (clear names, only what the task needs, simple structure, comments that explain why). They load automatically the first time Claude touches a code, template or markup file, and a hook reminds Claude to re-check after every edit to one. Project conventions win where they clash. `/human-readable <file, folder or "this diff">` cleans up existing code without changing what it does. |
 | [the-ladder](plugins/the-ladder/skills/the-ladder/SKILL.md) | Before writing code, Claude climbs a ladder and stops at the first rung that works: does it need to exist, is it already in the codebase, does a built-in or installed package do it, then build it (shared only if a second caller needs it today) with the least code. Before changing a shared function it checks every caller and fixes the root cause once. Each coding reply ends with the rung it used. A one-line hook at session start makes sure it loads; say "stop ladder" to turn it off for a session. |
+| [software-factory](plugins/software-factory/skills/setup/SKILL.md) | A software factory defined as code in a committed `factory/factory.yml`: ticket source (a local folder, Linear, GitHub or Jira), git host, telemetry, tests, limits and the stage graph itself (default: features → triage → ready → in-progress → qa → review → evaluate → merged or human-review). Projects can extend or replace any persona or the ticket template in `factory/personas/`. `/software-factory:setup` writes the file, then plans and applies what it needs, like Terraform; re-run it after editing. `/software-factory:refine [feature]` interviews you about a feature and ticks it ready. `/software-factory:run` runs one pass: sources (telemetry gatherer, code hunter) create tickets and every ticket moves one stage with persona subagents (developer, QA, reviewer, evaluator, ...). Repeat it with `/loop` or a schedule. |
 
 ## Layout
 
@@ -28,6 +29,7 @@ These live in the same marketplace but are installed separately, because they ch
 plugins/
   human-readable/   # optional plugin: its own .claude-plugin/, skills/, hooks/, scripts/
   the-ladder/       # optional plugin: its own .claude-plugin/, skills/, hooks/
+  software-factory/ # optional plugin: its own .claude-plugin/, skills/, plus defaults.yml, personas/, ticket-template.md
 skills/
   <skill-name>/
     SKILL.md        # frontmatter (name, description) + instructions
