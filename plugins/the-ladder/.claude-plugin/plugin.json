@@ -1,6 +1,6 @@
 {
   "name": "the-ladder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Makes Claude climb a ladder before writing code: need it, already in the codebase, built-in or installed, then the smallest build that works.",
   "author": {
     "name": "Ash"
