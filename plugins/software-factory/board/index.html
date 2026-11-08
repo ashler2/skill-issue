@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory board</title>
+<!-- Copied into factory/state/board.html by /software-factory:run. It reads board.js next to it
+     every few seconds, so it works straight from disk with no server. -->
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #eceef2; --card: #ffffff; --text: #1d2330; --muted: #667085;
+    --line: #d9dde5; --accent: #3b6fe0; --moved: #fff4c2; --human: #b45309; --human-bg: #fff3e0;
+    --done: #15803d; --crit: #b42318; --high: #c2410c; --medium: #a16207; --low: #475467;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --panel: #1a1e26; --card: #232833; --text: #e6e9ef; --muted: #98a2b3;
+      --line: #313846; --accent: #7aa2ff; --moved: #4a3f12; --human: #f5a524; --human-bg: #3a2a12;
+      --done: #4ade80; --crit: #f97066; --high: #fb923c; --medium: #facc15; --low: #98a2b3;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; padding: 14px 16px 8px; }
+  h1 { font-size: 18px; margin: 0; }
+  .status { color: var(--muted); }
+  .status b { color: var(--accent); }
+  .status.stale b { color: var(--crit); }
+  main { display: grid; gap: 12px; padding: 0 16px 16px; }
+  .board { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; align-items: flex-start; }
+  .col { flex: 1 0 150px; background: var(--panel); border-radius: 10px; padding: 8px; min-height: 120px;
+         border: 2px solid transparent; transition: border-color .3s; }
+  .col.active { border-color: var(--accent); }
+  .col.human { background: var(--human-bg); }
+  .col h2 { font-size: 13px; margin: 2px 4px 8px; display: flex; justify-content: space-between; gap: 6px; }
+  .col h2 small { color: var(--muted); font-weight: normal; }
+  .col.active h2::after { content: "working"; color: var(--accent); font-size: 11px; font-weight: normal; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px;
+          margin-bottom: 8px; transition: background-color 1.5s; }
+  .card.moved { background: var(--moved); }
+  .card .top { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; color: var(--muted); }
+  .card .title { margin: 4px 0; font-weight: 600; }
+  .card .meta { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; }
+  .card .verdict { font-size: 12px; margin-top: 4px; }
+  .card a { color: var(--accent); }
+  .sev { font-weight: 600; text-transform: uppercase; font-size: 11px; }
+  .sev.critical { color: var(--crit); } .sev.high { color: var(--high); }
+  .sev.medium { color: var(--medium); } .sev.low { color: var(--low); }
+  .tries.warn { color: var(--crit); font-weight: 600; }
+  .col.end .card { opacity: .75; }
+  aside { background: var(--panel); border-radius: 10px; padding: 10px; }
+  aside h2 { font-size: 13px; margin: 0 0 8px; }
+  aside ol { list-style: none; margin: 0; padding: 0; max-height: 40vh; overflow-y: auto; }
+  aside li { padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
+  aside li .when { color: var(--muted); }
+  .empty { color: var(--muted); padding: 24px 16px; }
+  code { font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="name">Factory board</h1>
+  <span class="status" id="status">Waiting for board.js…</span>
+</header>
+<main>
+  <div class="board" id="board"></div>
+  <aside><h2>Moves</h2><ol id="moves"></ol></aside>
+</main>
+<script>
+const POLL_MS = 3000;
+const STALE_MS = 3 * 60 * 60 * 1000;
+let lastStamp = null;
+let seenMoves = new Set();
+
+// Loads board.js again with a cache-buster. A script tag works from file://, unlike fetch.
+function poll() {
+  const tag = document.createElement("script");
+  tag.src = "board.js?t=" + Date.now();
+  tag.onload = tag.onerror = () => tag.remove();
+  document.head.appendChild(tag);
+}
+
+function text(value) {
+  const span = document.createElement("span");
+  span.textContent = value == null ? "" : String(value);
+  return span.innerHTML;
+}
+
+function link(href, label) {
+  return /^https?:\/\//.test(href || "") ? `<a href="${text(href)}" target="_blank" rel="noopener">${text(label)}</a>` : text(label);
+}
+
+function cardHtml(ticket, maxTries, moved) {
+  const tries = ticket.tries || 0;
+  const verdict = ticket.verdict ? `<div class="verdict"><b>${text(ticket.verdict)}</b> ${text(ticket.reason || "")}</div>` : "";
+  return `<div class="card${moved ? " moved" : ""}" data-id="${text(ticket.id)}">
+    <div class="top"><span>${link(ticket.url, ticket.id)}</span><span class="sev ${text(ticket.severity || "")}">${text(ticket.severity || "")}</span></div>
+    <div class="title">${text(ticket.title)}</div>
+    <div class="meta">
+      ${tries ? `<span class="tries${tries >= maxTries - 1 ? " warn" : ""}">tries ${tries}/${maxTries}</span>` : ""}
+      ${ticket.branch ? `<span>${text(ticket.branch)}</span>` : ""}
+      ${ticket.pr ? `<span>${link(ticket.pr, "PR")}</span>` : ""}
+    </div>${verdict}
+  </div>`;
+}
+
+function render(data, firstLoad) {
+  const board = document.getElementById("board");
+  const maxTries = data.maxTries || 3;
+  const newMoves = firstLoad ? [] : (data.moves || []).filter(m => !seenMoves.has(JSON.stringify(m)));
+  const movedNow = new Set(newMoves.map(m => m.ticket));
+
+  // FLIP: remember where each card was, render, then slide it from there to its new place.
+  const before = {};
+  board.querySelectorAll(".card").forEach(card => before[card.dataset.id] = card.getBoundingClientRect());
+
+  board.innerHTML = (data.stages || []).map(stage => {
+    const tickets = (data.tickets || []).filter(t => t.stage === stage.id);
+    let count = String(tickets.length);
+    if (stage.type === "queue" && stage.wip) count += ` · wip ${data.active ?? "?"}/${stage.wip}`;
+    const classes = ["col", stage.type, data.running === stage.id ? "active" : ""].join(" ");
+    return `<section class="${classes}"><h2>${text(stage.id)} <small>${text(count)}</small></h2>
+      ${tickets.map(t => cardHtml(t, maxTries, movedNow.has(t.id))).join("")}</section>`;
+  }).join("") || `<p class="empty">No stages yet. Run <code>/software-factory:run</code>.</p>`;
+
+  board.querySelectorAll(".card").forEach(card => {
+    const old = before[card.dataset.id];
+    if (!old) return;
+    const now = card.getBoundingClientRect();
+    const dx = old.left - now.left, dy = old.top - now.top;
+    if (!dx && !dy) return;
+    card.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }],
+      { duration: 700, easing: "cubic-bezier(.2,.8,.2,1)" });
+  });
+  setTimeout(() => board.querySelectorAll(".card.moved").forEach(c => c.classList.remove("moved")), 4000);
+
+  (data.moves || []).forEach(m => seenMoves.add(JSON.stringify(m)));
+  document.getElementById("moves").innerHTML = (data.moves || []).slice().reverse().map(m =>
+    `<li><b>${text(m.ticket)}</b> ${text(m.from)} → ${text(m.to)}<br>${text(m.reason || "")}
+     <div class="when">${text(m.at || "")}</div></li>`).join("") || "<li>No moves yet.</li>";
+}
+
+function renderStatus(data) {
+  const status = document.getElementById("status");
+  const age = Date.now() - Date.parse(data.updated);
+  const stale = data.running && age > STALE_MS;
+  status.className = "status" + (stale ? " stale" : "");
+  const state = data.running ? (stale ? "stalled?" : `running ${data.running}`) : "idle";
+  status.innerHTML = `<b>${text(state)}</b> · updated ${text(new Date(data.updated).toLocaleString())}`;
+  if (data.project) {
+    document.getElementById("name").textContent = data.project + " factory";
+    document.title = data.project + " factory";
+  }
+}
+
+// board.js calls this: factoryBoard({ ... }).
+window.factoryBoard = data => {
+  renderStatus(data);
+  if (data.updated === lastStamp) return;
+  const firstLoad = lastStamp === null;
+  lastStamp = data.updated;
+  render(data, firstLoad);
+};
+
+poll();
+setInterval(poll, POLL_MS);
+</script>
+</body>
+</html>

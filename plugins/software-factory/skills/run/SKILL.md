@@ -26,6 +26,10 @@ Run **one pass** of the factory, then report. For a continuous factory the user 
   - `label-human-review`: add the `human-review` label to the PR (no host: nothing).
   - `remove-worktree`: remove the ticket's worktree.
 
+## Board
+
+A live board for the user: `factory/state/board.html`, which reads `factory/state/board.js` every few seconds from disk. Each pass, copy `${CLAUDE_SKILL_DIR}/../../board/index.html` to `board.html`; the first time, give the user its path to open. Write `board.js` as one call `factoryBoard({...})` with: `project`, `updated` (ISO time), `running` (stage id being worked, `null` once the pass ends), `maxTries`, `active` (tickets in persona stages after the queue), `stages` (`id`, `type`, `wip`), `tickets` (`id`, `title`, `stage`, `severity`, `tries`, `verdict`, `reason`, `branch`, `pr`, `url`), and `moves` (`ticket`, `from`, `to`, `reason`, `at`; the previous file's moves plus new ones, last 30). Write it when the pass starts, after each stage where a ticket moved, and at the end.
+
 ## The pass
 
 Work through `stages` **from last to first**, so finished work frees slots before new work starts and each ticket moves at most one stage:
